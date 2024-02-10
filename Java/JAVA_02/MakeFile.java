@@ -1,67 +1,50 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MakeFile {
-    static public void test(Object... obj) {
-        for (Object aux : obj) {
-            System.out.println(aux);
+
+    public boolean createNewFile(String fileName) throws IOException {
+        return new File(".\\Files\\" + fileName).createNewFile();
+    }
+
+    public void writeFileData(File file, String fileData) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+
+            writer.write(fileData);
+            writer.newLine();
+
+            writer.flush();
+
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            throw e;
         }
     }
 
-    public boolean createNewFile(String fileName, String fileType, String filePath) throws IOException {
-        return new File(fileName).createNewFile();
-    }
+    public String readFileData(File file) throws IOException {
 
-    // works well ONLY for a few calls
-    String makeFilePath(String fileName, String fileType) {
-
-        class Checker {
-            String n = "";
-            String t = "null";
-            boolean result = false;
-
-            public Checker(String name, String type) {
-                if (checkName(name) && checkType(type)) {
-                    n = name;
-                    t = type;
-                    result = true;
-                }
+        StringBuilder fileData = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            
+            String line;
+            while ((line = reader.readLine()) != null) {
+                fileData.append(line);
+                fileData.append("\n"); 
             }
 
-            public void getResponse() {
-                System.out.println("regex check-out:\t" + result);
-            }
-
-            boolean check(String str) {
-                if (str == null || str.length() <= 0) {
-                    return false;
-                } else {
-                    int strLen = str.length();
-
-                    for (int i = 0; i < strLen; i++) {
-                        if (!(Character.isLetterOrDigit(str.charAt(i)))) {
-                            return false;
-                        }
-                    }
-
-                }
-                return true;
-            }
-
-            boolean checkName(String n) {
-                return check(n);
-            }
-
-            boolean checkType(String t) {
-                return check(t);
-            }
+        } catch (IOException e) {
+            throw new IOException(e);
         }
-
-        new Checker(fileName, fileType).getResponse();
-
-        return new StringBuilder(fileName).append(fileType).toString();
+        return fileData.toString();
     }
+
+    public File getFile(String fileName){
+        return new File(fileName);
+    }
+
 
 }
