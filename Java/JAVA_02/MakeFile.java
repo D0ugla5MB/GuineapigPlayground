@@ -30,21 +30,22 @@ public class MakeFile {
                 }
             }
 
-            public void getResponse(){
-                System.out.println("regex check-out:\t"+result);
+            public void getResponse() {
+                System.out.println("regex check-out:\t" + result);
             }
 
             boolean check(String str) {
                 if (str == null || str.length() <= 0) {
                     return false;
                 } else {
-                    String auxRef = "\\(\\]\\[\\|\\/\\/'\\\"\\!\\@\\#\\$\\%\\?\\¬\\&\\*\\+\\;\\.\\:\\?\\=\\s]\r\n";
-                    Pattern reference = Pattern.compile(auxRef);
-                    Matcher refMatcher = reference.matcher(str);
+                    int strLen = str.length();
 
-                    if (refMatcher.find()) {
-                        return false;
+                    for (int i = 0; i < strLen; i++) {
+                        if (!(Character.isLetterOrDigit(str.charAt(i)))) {
+                            return false;
+                        }
                     }
+
                 }
                 return true;
             }
@@ -59,7 +60,6 @@ public class MakeFile {
         }
 
         new Checker(fileName, fileType).getResponse();
-        
 
         return new StringBuilder(fileName).append(fileType).toString();
     }
