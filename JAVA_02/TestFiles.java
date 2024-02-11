@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class MakeFile {
+public class TestFiles {
 
     public boolean createNewFile(String fileName) throws IOException {
         return new File(".\\Files\\" + fileName).createNewFile();
@@ -29,11 +29,11 @@ public class MakeFile {
 
         StringBuilder fileData = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            
+
             String line;
             while ((line = reader.readLine()) != null) {
                 fileData.append(line);
-                fileData.append("\n"); 
+                fileData.append("\n");
             }
 
         } catch (IOException e) {
@@ -42,9 +42,12 @@ public class MakeFile {
         return fileData.toString();
     }
 
-    public File getFile(String fileName){
-        return new File(fileName);
+    String extractFileData(File f) throws IOException{
+        return readFileData(f);
     }
 
+    public File getFile(String fileName) {
+        return new File(fileName);
+    }
 
 }
