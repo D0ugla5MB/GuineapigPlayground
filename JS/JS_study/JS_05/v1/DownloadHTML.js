@@ -1,26 +1,39 @@
-function prepareContainer(identifier, content) {
-    const destiny = document.getElementById(identifier);
-    //destiny.appendChild(content);
-    console.log(content);
-}
-function getURL(inputURL) {
-    return inputURL;
+const rng = () => Math.floor((1 + Math.random()) * 10);
+const dataSrc = `https://catfact.ninja/breeds?limit=${rng()}`;
+
+function makeContent(data, elemId) {
+    const element = document.getElementById(elemId);
+    const container = document.createElement("div");
+
+    container.appendChild(data[2]);
+    return container;
 }
 
-function getHtmlData(siteURL) {
-    fetch(siteURL, {
-        mode: "cors",
-        method: "GET"
-    })
-        .then(siteContent => siteContent.blob())
-        .then(siteData => siteData.text())
-        .catch((errorMsg) => {
-            console.error("Something went wrong, my friend :/ I hope it help u:\n", errorMsg);
-        });
+function checkFetch(fetchedData) {
+    if (!fetchedData.ok) {
+        throw new Error("The data weren't fetched");
+    }
+    return fetchedData.json();
 }
 
-function run(identifier) {
-    prepareContainer(identifier, getHtmlData(getURL(prompt("URL:"))));
+function showData(fetchedData) {
+    console.log(fetchedData);
 }
 
-run("container_content");
+async function getData(dataOrigin) {
+    const fetchedData = await fetch(dataOrigin);
+    console.log(fetchedData);
+    return checkFetch(fetchedData);
+}
+
+async function run(dataSrc) {
+    try {
+        const data = await getData(dataSrc);
+        await makeContent(data.breed);
+        showData(data);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+run(dataSrc);
