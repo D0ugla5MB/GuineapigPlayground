@@ -1,0 +1,76 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+
+    <link rel="stylesheet" href="nome.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="lista_titulo.css">
+
+</head>
+
+<body>
+    <div id="super_div">
+        <header></header>
+        <main class="supGrid">
+            <div><!--Perfil-->
+                <section id="user_icon">
+                    <img src="user.png" alt="ícone_do_usuário" id="user_icon_img">
+                </section>
+                <section>
+                    <h1 class="animate-charcter">Nome</h1>
+                </section>
+                <section>
+                    <p id="desc">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius reprehenderit tempora
+                        officia
+                        repudiandae eaque nobis unde necessitatibus eligendi quis? Doloremque reiciendis corporis ut
+                        neque sed, iure necessitatibus vel possimus eius!</p>
+                </section>
+                <nav>
+                    <ul>
+                        <li><a href="#">A</a></li>
+                        <li><a href="#">S</a></li>
+                        <li><a href="#">D</a></li>
+                        <li><a href="#">F</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+
+            <div id="div_lista"> <!--Lista-->
+                <div id="titulo_lista" class="saltitante">
+
+                </div>
+                <section class="supGrid">
+                    <div id="dia">
+                        <section>
+                            <h3>Dia</h3>
+                            <button id="dia_btn">Nova tarefa</button>
+                        </section>
+                        <section>
+                            <ul id="dia_lista"></ul>
+                        </section>
+                    </div>
+                    <div id="noite">
+                        <section>
+                            <h3>Noite</h3>
+                            <button id="noite_btn">Nova tarefa</button>
+                        </section>
+                        <section>
+                            <ul id="noite_lista"></ul>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="scriptListaNome.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+
+</html>
