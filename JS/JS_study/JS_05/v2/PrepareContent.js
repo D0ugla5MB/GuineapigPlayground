@@ -1,5 +1,7 @@
-const rng = () => Math.floor((1 + Math.random()) * 10);
-const dataSrc = `https://catfact.ninja/breeds?limit=${rng()}`;
+function doRNG(min, max) {
+    return Math.floor((Math.random() * (max - min) + min));
+}
+const dataSrc = `https://catfact.ninja/breeds?limit=${doRNG(0, 30)}`;
 
 async function getData(data) {
     try {
@@ -13,14 +15,19 @@ async function getData(data) {
     }
 }
 
-async function prepareFetchedData(fetchedData) {
+async function prepareFetchedData(fetchedData, propName) {
     try {
         if (fetchedData !== undefined && fetchedData.data) {
-            const list = [];
+            const tupleList = [];
             for (let index = 0; index < fetchedData.data.length; index++) {
-                list.push(fetchedData.data[index].breed);
+                let tuple = {
+                    breedName: fetchedData.data[index]["breed"],
+                    property: propName,
+                    propValue: fetchedData.data[index][`${propName}`]  
+                }
+                tupleList.push(tuple);
             }
-            return list;
+            return tupleList;
         }
         throw Error("Empty or undefined data");
     } catch (error) {
@@ -29,19 +36,35 @@ async function prepareFetchedData(fetchedData) {
 }
 
 async function showData(data) {
-    console.log(`My required data are:\n\t${data}`);
+    const dataListSize = data.length;
+
+    for (let index = 0; index < dataListSize - 1; index++) {
+        console.log(data[index]);
+
+        console.log("---------------------------------\n");
+    }
 }
 
 async function processData() {
     try {
         const fetchedData = await getData(dataSrc);
-        const preparedData = await prepareFetchedData(fetchedData);
-        await showData(preparedData.join('\n\t'));
+        const aux = Object.keys(fetchedData.data[0]);
+
+        const getPropName = () => {
+            const propIndex = doRNG(1, aux.length);
+            return aux[propIndex];
+        };
+        const property = getPropName();
+
+        const preparedData = await prepareFetchedData(fetchedData, property);
+        await showData(preparedData);
     } catch (error) {
         console.error(error);
     }
 }
 
+async function test() {
+
+    console.log(doRNG(0, 10));
+}
 processData();
-
-
