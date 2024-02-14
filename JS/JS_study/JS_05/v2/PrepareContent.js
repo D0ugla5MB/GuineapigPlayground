@@ -1,7 +1,7 @@
-function doRNG(min, max) {
-    return Math.floor((Math.random() * (max - min) + min));
-}
-const dataSrc = `https://catfact.ninja/breeds?limit=${doRNG(0, 30)}`;
+import { doRNG } from "./MyUtils.js";
+
+const numberRequestData = doRNG(0, 30);
+const dataSrc = `https://catfact.ninja/breeds?limit=${numberRequestData}`;
 
 async function getData(data) {
     try {
@@ -19,14 +19,15 @@ async function prepareFetchedData(fetchedData, propName) {
     try {
         if (fetchedData !== undefined && fetchedData.data) {
             const tupleList = [];
-            for (let index = 0; index < fetchedData.data.length; index++) {
-                let tuple = {
-                    breedName: fetchedData.data[index]["breed"],
-                    property: propName,
-                    propValue: fetchedData.data[index][`${propName}`]  
-                }
-                tupleList.push(tuple);
+
+
+            let tuple = {
+                breedName: fetchedData.data[index]["breed"],
+                property: propName,
+                propValue: fetchedData.data[index][`${propName}`]
             }
+            tupleList.push(tuple);
+
             return tupleList;
         }
         throw Error("Empty or undefined data");
@@ -39,7 +40,7 @@ async function showData(data) {
     const dataListSize = data.length;
 
     for (let index = 0; index < dataListSize - 1; index++) {
-        console.log(data[index]);
+        console.log(`Breed:\t${data[index].breedName}\n${data[index].property}:\t${data[index].propValue}\n`);
 
         console.log("---------------------------------\n");
     }
@@ -67,4 +68,3 @@ async function test() {
 
     console.log(doRNG(0, 10));
 }
-processData();
