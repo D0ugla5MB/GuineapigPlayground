@@ -1,0 +1,25 @@
+.saltitante {
+    position: relative;
+}
+
+.saltitante span {
+    font-size: 40px;
+    position: relative;
+    display: inline-block;
+    color: #2b61e9;
+    animation: saltitante 1s ease-in-out infinite;
+    animation-delay: calc(.1s * var(--i));
+}
+
+@keyframes saltitante {
+
+    0%,
+    40%,
+    100% {
+        transform: translateY(0)
+    }
+
+    20% {
+        transform: translateY(-20px)
+    }
+}
