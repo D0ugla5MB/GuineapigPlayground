@@ -1,3 +1,4 @@
+import { buildURL } from "./PrepareContent.js";
 
 const URLbase = "https://catfact.ninja/breeds";
 const URLquery = "?page=";
@@ -13,19 +14,14 @@ async function getJsonResult(source) { //URLbase
     return await fetch(source).then((jsonData) => jsonData.json());
 }
 
-async function getJsonProp(jsonResp) { //Last URL, and loop's control
-    return jsonResp.last_page;
+async function getJsonProperty(jsonResponse) { //Last URL, and loop's control
+    return await jsonResponse.last_page;
 }
-
-function buildURL(URLbase, URLquery, pageNum) {
-    return `${URLbase}${URLquery}${pageNum}`;
-}
-
 
 async function getJsonData() {
-    let jsonPromise = await getJsonResult(URLbase);
+    let jsonResponse = await getJsonResult(URLbase);
     let pageNum = 0;
-    const limit = await getJsonProp(jsonPromise);
+    const limit = await getJsonProperty(jsonResponse);
 
     while (pageNum <= limit) {
         const pageURL = buildURL(URLbase, URLquery, pageNum);
