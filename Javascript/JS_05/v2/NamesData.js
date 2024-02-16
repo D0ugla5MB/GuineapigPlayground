@@ -1,28 +1,37 @@
 //import { buildURL } from "./PrepareContent";
 const namesDataList = [];
 
-export async function getAPIdata(res, inc) {
+export async function getNamesList(){
+    await prepareNamesData();
+    return namesDataList;
+}
+
+async function selectNamesData(res, inc) {
     const baseURL = "https://randomuser.me/api/";
     const URLquery = `?results=${res}&inc=${inc}&noinfo`;
 
     try {
         const response = await fetch(`${baseURL}${URLquery}`);
         const data = await response.json();
-        return data.results; 
+        return await data.results; 
     } catch (error) {
         console.error('Error fetching API data:', error);
         return []; 
     }
 }
 
-export async function prepareNamesData() {
-    try {
-        const APIdata = await getAPIdata(5, "name");
-        namesDataList.push(...APIdata);
-    } catch (error) {
-        console.error('Error processing API data:', error);
+async function prepareNamesData() {
+    const APIdata = await selectNamesData(5, "name");
+
+    for (let i = 0; i < APIdata.length; i++) {
+        const name = {
+            first: APIdata[i]["name"]["first"],
+            last: APIdata[i]["name"]["last"]
+        };
+        namesDataList.push(`${name.first} ${name.last}`);
     }
-    return namesDataList;
+
+    return await APIdata;
 }
 
 
