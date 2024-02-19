@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <time.h>
 
 #define MY_SIZEOF(arr) ((char *)(&arr + 1) - (char *)(&arr))
 
