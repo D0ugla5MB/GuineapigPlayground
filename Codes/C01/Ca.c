@@ -50,25 +50,34 @@ int *getLastAddress(int arr[], int arrSize)
     return &(arr[numElem - 1]);
 }
 
-int getArrSize(int arr[])
+void fillArray(int arr[], int size)
 {
-    return sizeof(arr) / sizeof(int);
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = i;
+    }
 }
 
 // int arrSize = sizeof(arr) / sizeof(int); // dont work witch: parameters, poiters, matrix
+
+struct Pointer
+{
+    int arrNum[10];
+    int elem;
+    int *pointElem;
+};
+
 int main(int argc, char const *argv[])
 {
     clear_screen();
     srand(time(NULL));
-    put_space();
 
-    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-    int arrA[100];
-    fillArray(arrA, 100);
-    int *p = arrA;
-
-    printf("%p\t%p\n", p, p + 1);
-    printf("%p\t%p\n", &arrA[0], &arrA[0] + 8);
+    int (*p)(int, int) = &random_number;
+    int cnt = 5;
+    for (int i = cnt; i > 0; i--)
+    {
+        printf("%p\t%d\n", (*p), (*p)(0, 10));
+    }
 
     return 0;
 }
