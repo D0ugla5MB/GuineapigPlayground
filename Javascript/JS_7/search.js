@@ -1,8 +1,11 @@
 import { getParamListSize, getParameters } from "./search_parameters.js";
 
 const apiUrl = 'https://api.waifu.im/search';  // Replace with the actual API endpoint URL
-const params = (parameters) => {
+const params = buildParameters(getParameters());
+
+function buildParameters(parameters){
     const paramProp = Object.entries(parameters);
+    const listSize = getParamListSize();
     const cntDeletedProp = validURL();
     let aux = 0;
     for (const [prop, value] of paramProp) {
@@ -12,11 +15,12 @@ const params = (parameters) => {
             delete parameters[prop];
         }
     }
-    return { parameters, aux };
+    return { parameters, aux, listSize };
+
 }
 
 
-const queryParams = new URLSearchParams(params(getParameters()).parameters);
+const queryParams = new URLSearchParams(params.parameters);
 const requestUrl = `${apiUrl}?${queryParams}`;
 
 function validURL() {
@@ -31,8 +35,10 @@ function validURL() {
 
 
 export async function getSearchData() {
-    const objectLength = getParamListSize();
-    const counter = window.params("").aux;
+    const objectLength = params.listSize;
+    const counter= params.aux;
+    
+    console.log(objectLength);
     console.log(counter);
     if (counter >= objectLength || counter == undefined) {
         throw new Error("We haven't those images :/");

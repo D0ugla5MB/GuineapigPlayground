@@ -15,15 +15,12 @@ const parameter_list = {
     full: null,           //boolean
     width: "",          //str
     height: "",         //str
-    byte_size: ""       //str
+    byte_size: "",       //str
 };
 
-export function getParamListSize(){
-    return 12;
-}
-
-function cntNumProperties(){
-    return Object.values(parameter_list).length; //need being fixed
+export function getParamListSize() {
+    
+    return Object.keys(parameter_list).length;
 }
 
 export function getParameters() {
