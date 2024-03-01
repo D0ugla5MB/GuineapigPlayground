@@ -1,15 +1,20 @@
+import { getRandomData } from './api_data.mjs';
 
-function globalAux(req){
-    return require(req);
-}
+function starServer(data){
+    const http = require('node:http');
+    const server = http.createServer();
 
-function runTestOption(funcOpt) {
-    return funcOpt();
+    server.on('request', (req, res) => {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.write(data);
+        res.end();
+    });
+    server.listen(8000);
 }
 
 function runA() {
     const http = require('http');
-    const test = require(".\\test_script.js");
+    const test = require("./test_script.js");
     http.createServer(function (req, res) {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.write(test.test());
@@ -52,14 +57,7 @@ function runC() {
 }
 
 function runD(){
-    const http = require('node:http');
-    const server = http.createServer();
-
-    server.on('request', (req, res) => {
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('Hello, world!');
-    });
-    server.listen(8000);
+    starServer();    
 }
 
-runTestOption(globalAux("./test_script").testA);
+console.log(getRandomData());
