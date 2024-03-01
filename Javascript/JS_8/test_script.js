@@ -5,8 +5,38 @@ exports.test = function () {
             return `<h1>${Date()}</h1>`;
         };
      */
-    return  a();
+    return d();
 
+}
+
+exports.testA = function () {
+    const fs = require('node:fs/promises');
+
+    function a0() {
+        fs.stat('C:\\', (err, stats) => {
+            if (err) {
+                console.error(err);
+            } else {
+                console.log(stats);
+            }
+        });
+    }
+
+    async function a1() {
+        const fs = require('node:fs/promises');
+        async function example() {
+            let filehandle;
+            try {
+                filehandle = await fs.open('./my_server.js', 'r');
+                console.log(filehandle.fd);
+                console.log(await filehandle.readFile({ encoding: 'utf8' }));
+            } finally {
+                if (filehandle) await filehandle.close();
+            }
+        }
+        example();
+    }
+    return a1();
 }
 
 async function testFile() {
@@ -75,4 +105,23 @@ async function c() {
         if (err) throw err;
         console.log('Saved!');
     });
+}
+
+function d() {
+
+    setImmediate(() => {
+        console.log(6);
+    });
+    setTimeout(() => {
+        console.log(1);
+    }, 100);
+    process.nextTick(() => {
+        console.log(3);
+    });
+
+    console.log(0);
+    console.log(2);
+    console.log(4);
+    console.log(5);
+
 }

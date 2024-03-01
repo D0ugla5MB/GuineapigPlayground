@@ -1,4 +1,8 @@
 
+function globalAux(req){
+    return require(req);
+}
+
 function runTestOption(funcOpt) {
     return funcOpt();
 }
@@ -47,4 +51,15 @@ function runC() {
     }).listen(8080);
 }
 
-runTestOption(runC);
+function runD(){
+    const http = require('node:http');
+    const server = http.createServer();
+
+    server.on('request', (req, res) => {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Hello, world!');
+    });
+    server.listen(8000);
+}
+
+runTestOption(globalAux("./test_script").testA);
