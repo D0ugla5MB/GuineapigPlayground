@@ -1,18 +1,34 @@
 import { createServer } from "node:http";
 import { join } from 'node:path';
-import { readdirSync, statSync, writeFileSync } from 'node:fs';
-import { putDataOnFile, makeRdnPersonData } from "./api_data.mjs";
+import { readdirSync, statSync, writeFileSync, readFileSync } from 'node:fs';
 import binarySearch from "binary-search";
 
-function starServer(data) {
+function startServer(data) {
+    const strFormatData = data.toString();
+    
+    console.log(data);
+    if(strFormatData.length <= 0 || strFormatData === undefined){
+        console.error("AAAAAA");
+    }
+    
     const server = createServer();
-
     server.on('request', (req, res) => {
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.write(data);
-        res.end();
+
+        if (typeof data === 'undefined' || data.toString().trim() === '') {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            console.error("The server data is currently empty.");
+            res.write('The server data is currently empty.');
+            res.end();
+
+        } else {
+            console.log("bdhsbdhsadb")
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.write(data);
+            res.end();
+        }
     });
-    server.listen(8000);
+
+    // server.listen(8000);
 }
 
 function getAllFilesPath(rootdir) {
@@ -56,10 +72,25 @@ function emptyFileData(file) {
     return false;
 }
 
-let c = 0;
-while(c++ < 100){
-
-    putDataOnFile("randomdata.txt", makeRdnPersonData());
-
+function getData(strPiece) {
+    const pathList = getAllFilesPath(".");
+    const checkPath = () => {
+        const listSize = pathList.length;
+        let pos = 0;
+        while (pos < listSize) {
+            const path = pathList[pos];
+            if (path.includes(strPiece)) {
+                return { valid: true, file: path };
+            }
+            pos++;
+        }
+    }
+    const checkedPath = checkPath();
+    if (checkedPath.valid) {
+        return readFileSync(checkedPath.file);
+    }
+    return "";
 }
+
+startServer();
 
