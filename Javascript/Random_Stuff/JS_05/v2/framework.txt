@@ -1,0 +1,2 @@
+OBJECTIVE: do a web app seems like a (simple) social network or a forum: forum>>sn
+about cats
