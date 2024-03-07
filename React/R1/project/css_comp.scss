@@ -1,0 +1,45 @@
+$font-base: sans-serif;
+$colors: (
+    black-font: #000000,
+    white-font: #ffffff,
+    red-h: rgb(255, 0, 0),
+    blue-p: rgb(0, 0, 255),
+    div-border: rgb(68, 129, 255),
+    ul-border: rgb(188, 0, 35)
+);
+
+body {
+    font-family: $font-base;
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid map-get($colors, div-border);
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
+        color: map-get($colors , "red-h");
+    }
+
+    p {
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        color: map-get($colors , "blue-h");
+    }
+
+    ul {
+        padding: 0;
+        margin: 10;
+        border: 1px solid map-get($colors, ul-border);
+
+        li {
+            padding: 0.5rem 0;
+        }
+    }
+
+}
