@@ -4,6 +4,10 @@ body {
   padding: 0;
 }
 
+.space{
+  white-space: pre;
+}
+
 div {
   padding: 1rem;
   margin-bottom: 1rem;
