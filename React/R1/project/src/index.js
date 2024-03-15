@@ -1,57 +1,14 @@
-import React, { createElement } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import "./index.css";
-import { faker, ro } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { useState } from 'react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
 function makePerson() {
-    return { firstName: faker.person.firstName(), lastName: faker.person.lastName() };
-}
-
-
-function Title() {
-    return <h1>These are my components!</h1>
-}
-
-
-function Person() {
-
-    const person = makePerson();
-
-    return (
-        <li key={crypto.randomUUID()}>
-            {`${person.firstName} ${person.lastName}`}
-        </li>
-    );
-}
-function MyButton() {
-    const [newPerson, setNewPerson] = useState(makePerson());
-    /* 
-    (global)var newPerson = makePerson();
-    function setNewPerson(p){
-        newPerson = p;
-    }
-
-    function addNewPerson() {
-        setNewPerson(makePerson());
-        return newPerson;
-    }
-    
-     */
-    function addNewPerson() {
-        setNewPerson(makePerson());
-    }
-    return (
-        <>
-            <button onClick={addNewPerson}>
-                Click me
-            </button>
-            <p className='space'>{`${newPerson.firstName}\t${newPerson.lastName}`}</p> 
-        </>
-    );
+    return `${faker.person.firstName()}\t${faker.person.lastName()}`
 }
 
 function PeopleList() {
@@ -86,12 +43,46 @@ function PeopleList() {
     );
 }
 
-function Content() {
+function Title() {
+    return <h1>These are my components!</h1>
+}
+
+
+function Person() {
+
+    const person = makePerson();
+
+    return (
+        <li key={crypto.randomUUID()}>
+            {`${person.firstName} ${person.lastName}`}
+        </li>
+    );
+}
+
+function MyButton({ newPerson, addNewPerson }) {
+
     return (
         <>
+            <div>
+                <button id='buttonP' onClick={addNewPerson}>Click me</button>
+                <p id='buttonP'>{newPerson}</p>
+            </div>
+
+        </>
+    );
+}
+function Content() {
+    const [newPerson, setNewPerson] = useState(makePerson());
+    function addNewPerson() {
+        setNewPerson(makePerson());
+    }
+    return (
+        <>
+            {/** THE ISSUE WAS THE PROPS NAME WAS BEING PASSED */}
             <Title />
-            <br></br>
-            <MyButton />
+            <MyButton newPerson={newPerson} addNewPerson={addNewPerson} />
+            <MyButton newPerson={newPerson} addNewPerson={addNewPerson} />
+            <MyButton newPerson={newPerson} addNewPerson={addNewPerson} />
         </>
     );
 }
