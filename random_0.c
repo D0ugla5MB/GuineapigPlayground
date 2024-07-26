@@ -16,7 +16,7 @@ void initialize_matrix(int matrix[ROWS][COLS])
     }
 }
 
-void display_matrix(int matrix[ROWS][COLS])
+void display_matrixAddresses(int matrix[ROWS][COLS])
 {
     // Display the matrix
     for (int i = 0; i < ROWS; i++)
@@ -29,23 +29,44 @@ void display_matrix(int matrix[ROWS][COLS])
     }
 }
 
+void display_matrixProductCartesian(int matrix[ROWS][COLS])
+{
+    for (int i = 1; i <= ROWS; i++)
+    {
+        for (int j = 1; j <= COLS; j++)
+        {
+            printf("%dx%d: %d  ", i, j, matrix[i - 1][j - 1]);
+        }
+        printf("\n");
+    }
+}
+
+int findLinearPos(int ri, int ci)
+{
+    return ri * ci - 1;
+}
+
 int main()
 {
     int matrix[ROWS][COLS];
 
     initialize_matrix(matrix);
     printf("Matrix:\n");
-    display_matrix(matrix);
+    display_matrixProductCartesian(matrix);
     printf("\n");
     printf("\n");
 
-    int * arrBgn = &matrix[0][0];
-    *(arrBgn + ROWS*COLS - 1) = 999;
-    for (int i = 0; i < ROWS*COLS; i++)
+    int *arrBgn = &matrix[0][0];
+    *(arrBgn + findLinearPos(2, 3)) = 999;
+    display_matrixProductCartesian(matrix);
+
+    printf("\n");
+    printf("\n");
+
+    for (int i = 0; i < ROWS * COLS; i++)
     {
         printf("%d\t%d\n", arrBgn + i, *(arrBgn + i));
     }
-    
 
     return 0;
 }
