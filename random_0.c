@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #define ROWS 3
-#define COLS 3
+#define COLS 5
 
 void initialize_matrix(int matrix[ROWS][COLS])
 {
@@ -41,9 +41,9 @@ void display_matrixProductCartesian(int matrix[ROWS][COLS])
     }
 }
 
-int findLinearPos(int ri, int ci)
+int findLinearPos(int ri, int ci, int rSize)
 {
-    return ri * ci - 1;
+    return (ri - 1)*rSize + ci -1;
 }
 
 int main()
@@ -57,16 +57,15 @@ int main()
     printf("\n");
 
     int *arrBgn = &matrix[0][0];
-    *(arrBgn + findLinearPos(2, 3)) = 999;
+    int range = COLS;
+    *(arrBgn + findLinearPos(1, 2, range)) = 99;
+
     display_matrixProductCartesian(matrix);
 
-    printf("\n");
-    printf("\n");
-
-    for (int i = 0; i < ROWS * COLS; i++)
+    /* for (int i = 0; i < ROWS * COLS; i++)
     {
         printf("%d\t%d\n", arrBgn + i, *(arrBgn + i));
-    }
+    } */
 
     return 0;
 }
