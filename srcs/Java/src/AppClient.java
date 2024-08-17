@@ -90,12 +90,12 @@ import java.net.*;
 
 public class AppClient {
 
-    private static Thread openServerThread(String htmlContentString){
+    private static Thread openServerThread(String htmlContentString, int portNum) {
         return new Thread(() -> {
             try {
-                ServerSocket serverSocket = new ServerSocket(8080);
-                System.out.println("Server is listening on port 8080");
-
+                ServerSocket serverSocket = new ServerSocket(portNum);
+                System.out.printf("Server is listening on port:% d\n", portNum);
+                
                 while (true) {
                     try (Socket clientSocket = serverSocket.accept();
                             BufferedReader in = new BufferedReader(
@@ -127,22 +127,10 @@ public class AppClient {
         });
     }
 
-    public static void main(String[] args) {
-        Thread serverThread = openServerThread("AAAAAAAABBBBBB");
-
-        // Allow some time for the server to start
-        serverThread.start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // Run the client code
-        String urlString = "http://localhost:8080";
+    private static void runClient(String domainPort) {
 
         try {
-            URL url = new URL(urlString);
+            URL url = new URL(domainPort);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -166,6 +154,20 @@ public class AppClient {
             e.printStackTrace();
         }
 
+    }
 
+    public static void main(String[] args) {
+        Thread serverThread = openServerThread("AAAAAAAABBBBBB", 8080);
+
+        // Allow some time for the server to start
+        serverThread.start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        String domainURL = "http://localhost:8080";
+        runClient(domainURL);
     }
 }
